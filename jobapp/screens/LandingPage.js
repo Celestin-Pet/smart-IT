@@ -1,62 +1,65 @@
-import React from 'react';
-import { View, Text, FlatList, ImageBackground, StyleSheet, Image } from 'react-native';
-import JobCard from '../components/JobCard';
-import data from '../Data';
+import React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import { globalStyles } from "../styles/globalStyles";
 
-export default function LandingPage({ navigation }) {
+const LandingPage = ({ navigation }) => {
   return (
-    <ImageBackground source={require('../assets/background.png')} style={styles.background}>
-      <View style={styles.header}>
-        <Text style={styles.greeting}>Hello</Text>
-        <Text style={styles.username}>Leslie Alexander</Text>
-        <Image source={require('../assets/notification-icon.png')} style={styles.notificationIcon} />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recommendation</Text>
-        <FlatList
-          data={data.recommendations}
-          horizontal
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <JobCard job={item} onPress={() => navigation.navigate('JobDetails', { job: item })} />
-          )}
+    <ScrollView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>Hello Leslie Alexander</Text>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search job, company, etc..."
         />
       </View>
-    </ImageBackground>
+
+      <Text style={styles.sectionTitle}>Recommendation</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.card}>
+          <Image source={require("../assets/google-logo.png")} style={styles.icon} />
+          <Text style={styles.jobTitle}>Motion Designer</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("JobDetails")}
+          >
+            <Text style={styles.buttonText}>Apply Now</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-    paddingHorizontal: 16,
+  container: { flex: 1, backgroundColor: "#f9f9f9" },
+  headerContainer: { padding: 20, backgroundColor: "#4285F4" },
+  title: { fontSize: 24, fontWeight: "bold", color: "#fff" },
+  searchInput: { marginTop: 15, backgroundColor: "#fff", padding: 10, borderRadius: 8 },
+  sectionTitle: { margin: 20, fontSize: 20, fontWeight: "bold" },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    margin: 10,
+    padding: 20,
+    width: 200,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 50,
+  jobTitle: { fontSize: 16, fontWeight: "bold", marginTop: 10 },
+  button: {
+    backgroundColor: "#4285F4",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
   },
-  greeting: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  username: {
-    fontSize: 18,
-    color: '#fff',
-  },
-  notificationIcon: {
-    width: 24,
-    height: 24,
-  },
-  section: {
-    marginTop: 20,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
+  buttonText: { color: "#fff", textAlign: "center" },
+  icon: { width: 40, height: 40 },
 });
+
+export default LandingPage;
